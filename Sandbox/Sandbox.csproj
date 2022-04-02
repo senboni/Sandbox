@@ -1,11 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageId>Sandbox</PackageId>
+		<Authors>Senboni</Authors>
+		<Company>Senboni</Company>
+		<PackageDescription>Just a library for testing nuget ci/cd via github actions</PackageDescription>
+		<RepositoryUrl>https://github.com/senboni/Sandbox</RepositoryUrl>
+	</PropertyGroup>
 
 </Project>
