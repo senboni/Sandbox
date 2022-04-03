@@ -11,7 +11,7 @@ on:
 env:
   DOTNET_VERSION: '6.0.x'
   NUGET_SOURCE: 'https://nuget.pkg.github.com/Senboni/index.json'
-  NUGET_SOURCE_NAME: 'github',
+  NUGET_SOURCE_NAME: 'github'
   MAIN_PROJECT: Sandbox
 
 jobs:
