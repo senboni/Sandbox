@@ -31,7 +31,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Get version info
-        id: get_version
+        id: get-version
         uses: kzrnm/get-net-sdk-project-versions-action@v1
         with:
           proj-path: ${{ matrix.project }}/${{ matrix.project }}.csproj
