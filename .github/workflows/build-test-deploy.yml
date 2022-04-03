@@ -45,9 +45,6 @@ jobs:
       - name: Build dotnet
         run: dotnet build --configuration Release --no-restore
 
-      - name: Test dotnet
-        run: dotnet test --verbosity normal --no-restore
-
       - name: Pack package
         run: dotnet pack --configuration Release
 
