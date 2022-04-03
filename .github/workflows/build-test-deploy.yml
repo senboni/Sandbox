@@ -54,3 +54,11 @@ jobs:
 
       - name: Push package
         run: dotnet nuget push "${{ matrix.project }}/bin/Release/${{ matrix.project }}.1.0.0.nupkg" --source "${{ env.NUGET_SOURCE }}"
+
+      - name: publish on version change
+        id: publish_nuget
+        uses: rohith/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: ${{ matrix.project }}/${{ matrix.project }}.csproj
+          PACKAGE_NAME: ${{ matrix.project }}
+          NUGET_SOURCE: ${{ env.NUGET_SOURCE }}
