@@ -42,24 +42,14 @@ jobs:
       - name: Test dotnet
         run: dotnet test --verbosity normal --no-restore
 
-      # - name: Upload dotnet test results
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: dotnet-results-${{ env.DOTNET_VERSION }}
-      #     path: TestResults-${{ env.DOTNET_VERSION }}
-      #   # Use always() to always run this step to publish test results when there are test failures
-      #   if: ${{ always() }}
-
       - name: Pack package
         run: dotnet pack --configuration Release
 
-      # - name: Push package
-      #   run: dotnet nuget push "${{ matrix.project }}/bin/Release/${{ matrix.project }}.1.0.0.nupkg" --source "${{ env.NUGET_SOURCE_NAME }}"
-
-      - name: publish on version change
+      - name: Publish on version change
         id: publish_nuget
         uses: rohith/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: ${{ matrix.project }}/${{ matrix.project }}.csproj
           PACKAGE_NAME: ${{ matrix.project }}
           NUGET_SOURCE: ${{ env.NUGET_SOURCE }}
+          NUGET_KEY: ${{ secrets.GITHUB_TOKEN }}
