@@ -2,9 +2,9 @@ name: Create and publish nuget package
 
 on:
   push:
+    branches: [ main ]
     tags:
     - 'release'
-    branches: [ main ]
     paths-ignore:
     - 'README.md'
 
