@@ -30,14 +30,20 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Get version
+      - name: Get version info
         id: get_version
-        uses: greenygh0st/net-proj-release-version@v1
+        uses: kzrnm/get-net-sdk-project-versions-action@v1
         with:
-          PROJ_FILE: ${{ matrix.project }}/${{ matrix.project }}.csproj
+          proj-path: ${{ matrix.project }}/${{ matrix.project }}.csproj
 
-      - name: Next Step
-        run: echo "${{ steps.get_version.outputs.RELEASE_VERSION }}"
+      - name: Display version info
+        run: 'echo "version: ${{ steps.get-version.outputs.version }}"'
+        run: 'echo "version-prefix: ${{ steps.get-version.outputs.version-prefix }}"'
+        run: 'echo "version-suffix: ${{ steps.get-version.outputs.version-suffix }}"'
+        run: 'echo "package-version: ${{ steps.get-version.outputs.package-version }}"'
+        run: 'echo "assembly-version: ${{ steps.get-version.outputs.assembly-version }}"'
+        run: 'echo "file-prefix: ${{ steps.get-version.outputs.file-version }}"'
+        run: 'echo "informational-prefix: ${{ steps.get-version.outputs.informational-version }}"'
 
       - name: Add nuget source
         run: dotnet nuget add source --username Senboni --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name ${{ env.NUGET_SOURCE_NAME }} "${{ env.NUGET_SOURCE }}"
