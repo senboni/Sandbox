@@ -16,7 +16,7 @@ jobs:
   build-and-test:
     steps:
       - name: Checkout repository
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
