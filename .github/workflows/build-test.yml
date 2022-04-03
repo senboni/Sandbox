@@ -9,7 +9,6 @@ on:
 env:
   DOTNET_VERSION: '6.0.x'
   NUGET_SOURCE: 'https://nuget.pkg.github.com/Senboni/index.json'
-  NUGET_SOURCE_NAME: 'github'
 
 jobs:
   build-and-test:
@@ -28,7 +27,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Add nuget source
-        run: dotnet nuget add source --username Senboni --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name ${{ env.NUGET_SOURCE_NAME }} "${{ env.NUGET_SOURCE }}"
+        run: dotnet nuget add source --username Senboni --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "${{ env.NUGET_SOURCE }}"
 
       - name: Install dependencies
         run: dotnet restore
