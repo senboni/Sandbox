@@ -2,8 +2,10 @@ name: Build and test
 
 on:
   push:
-  pull-request:
-    branches: [ 'main' ]
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+    - 'README.md'
 
 env:
   DOTNET_VERSION: '6.0.x'
