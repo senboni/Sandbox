@@ -15,7 +15,7 @@ env:
 
 jobs:
   deploy-main-project:
-    if: github.event.base_ref == 'refs/heads/main'
+    if: contains('github.event.base_ref', 'main')
     runs-on: ubuntu-latest
 
     permissions:
@@ -53,7 +53,7 @@ jobs:
         run: dotnet nuget push "${{ env.MAIN_PROJECT }}/bin/Release/${{ env.MAIN_PROJECT }}.${{ steps.get-version.outputs.version }}.nupkg" --source "${{ env.NUGET_SOURCE }}"
 
   deploy-other-projects:
-    if: github.event.base_ref == 'refs/heads/main'
+    if: contains('github.event.base_ref', 'main')
     runs-on: ubuntu-latest
 
     permissions:
