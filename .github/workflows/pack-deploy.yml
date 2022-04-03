@@ -85,11 +85,14 @@ jobs:
         with:
           proj-path: ${{ env.MAIN_PROJECT }}/${{ env.MAIN_PROJECT }}.csproj
 
-      - name: Pack main project
-        run: |
-          dotnet restore "${{ env.MAIN_PROJECT }}"
-          dotnet build "${{ env.MAIN_PROJECT }}" --configuration Release --no-restore
-          dotnet pack "${{ env.MAIN_PROJECT }}" --configuration Release --no-restore --no-build -p:PackageVersion=${{ steps.get-main-project-version.outputs.version }}
+      - name: Install main project dependencies
+        run: dotnet restore "${{ env.MAIN_PROJECT }}"
+
+      - name: Build main project dotnet
+        run: dotnet build "${{ env.MAIN_PROJECT }}" --configuration Release --no-restore
+
+      - name: Pack main project package
+        run: dotnet pack "${{ env.MAIN_PROJECT }}" --configuration Release --no-restore --no-build -p:PackageVersion=${{ steps.get-main-project-version.outputs.version }}
 
       - name: Add main project nuget source
         run: dotnet nuget add source "${{ env.MAIN_PROJECT }}/bin/Release/"
