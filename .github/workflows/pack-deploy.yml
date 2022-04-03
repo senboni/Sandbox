@@ -3,8 +3,6 @@ name: Create and publish nuget package
 on:
   push:
     branches: ['main']
-    # tags:
-    # - 'release*'
     paths-ignore:
     - 'README.md'
 
@@ -23,9 +21,6 @@ jobs:
       packages: write
 
     steps:
-      - name: test
-        run: echo ${{ github.event.base_ref }}
-
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -97,7 +92,7 @@ jobs:
           dotnet pack "${{ env.MAIN_PROJECT }}" --configuration Release --no-restore --no-build -p:PackageVersion=${{ steps.get-main-project-version.outputs.version }}
 
       - name: Add main project nuget source
-        run: dotnet nuget add source "${{ env.MAIN_PROJECT }}/bin/Release"
+        run: dotnet nuget add source "${{ env.MAIN_PROJECT }}/bin/Release/"
 
       - name: Install dependencies
         run: dotnet restore "${{ matrix.project }}"
