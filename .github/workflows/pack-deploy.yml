@@ -1,0 +1,109 @@
+name: Create and publish nuget package
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+    - 'release*'
+    paths-ignore:
+    - 'README.md'
+
+env:
+  DOTNET_VERSION: '6.0.x'
+  NUGET_SOURCE: 'https://nuget.pkg.github.com/Senboni/index.json'
+  NUGET_SOURCE_NAME: 'github'
+  MAIN_PROJECT: Sandbox
+
+jobs:
+  deploy-main-project:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Get version info
+        id: get-version
+        uses: kzrnm/get-net-sdk-project-versions-action@v1
+        with:
+          proj-path: ${{ env.MAIN_PROJECT }}/${{ env.MAIN_PROJECT }}.csproj
+
+      - name: Add nuget source
+        run: dotnet nuget add source --username Senboni --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name ${{ env.NUGET_SOURCE_NAME }} "${{ env.NUGET_SOURCE }}"
+
+      - name: Install dependencies
+        run: dotnet restore "${{ env.MAIN_PROJECT }}"
+
+      - name: Build dotnet
+        run: dotnet build "${{ env.MAIN_PROJECT }}" --configuration Release --no-restore
+
+      - name: Pack package
+        run: dotnet pack "${{ env.MAIN_PROJECT }}" --configuration Release --no-restore --no-build -p:PackageVersion=${{ steps.get-version.outputs.version }}
+
+      - name: Push package
+        run: dotnet nuget push "${{ env.MAIN_PROJECT }}/bin/Release/${{ env.MAIN_PROJECT }}.${{ steps.get-version.outputs.version }}.nupkg" --source "${{ env.NUGET_SOURCE }}"
+
+  deploy-other-projects:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        project: [ Sandbox.Toolkit, Sandbox.Toys ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Add nuget source
+        run: dotnet nuget add source --username Senboni --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name ${{ env.NUGET_SOURCE_NAME }} "${{ env.NUGET_SOURCE }}"
+
+      - name: Get version info
+        id: get-version
+        uses: kzrnm/get-net-sdk-project-versions-action@v1
+        with:
+          proj-path: ${{ matrix.project }}/${{ matrix.project }}.csproj
+
+      - name: Get main project version info
+        id: get-main-project-version
+        uses: kzrnm/get-net-sdk-project-versions-action@v1
+        with:
+          proj-path: ${{ env.MAIN_PROJECT }}/${{ env.MAIN_PROJECT }}.csproj
+
+      - name: Pack main project
+        run: |
+          dotnet restore "${{ env.MAIN_PROJECT }}"
+          dotnet build "${{ env.MAIN_PROJECT }}" --configuration Release --no-restore
+          dotnet pack "${{ env.MAIN_PROJECT }}" --configuration Release --no-restore --no-build -p:PackageVersion=${{ steps.get-main-project-version.outputs.version }}
+
+      - name: Add main project nuget source
+        run: dotnet nuget add source "${{ env.MAIN_PROJECT }}/bin/Release"
+
+      - name: Install dependencies
+        run: dotnet restore "${{ matrix.project }}"
+
+      - name: Build dotnet
+        run: dotnet build "${{ matrix.project }}" --configuration Release --no-restore
+
+      - name: Pack package
+        run: dotnet pack "${{ matrix.project }}" --configuration Release --no-restore --no-build -p:PackageVersion=${{ steps.get-version.outputs.version }}
+
+      - name: Push package
+        run: dotnet nuget push "${{ matrix.project }}/bin/Release/${{ matrix.project }}.${{ steps.get-version.outputs.version }}.nupkg" --source "${{ env.NUGET_SOURCE }}"
