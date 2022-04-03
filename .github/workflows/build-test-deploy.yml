@@ -46,7 +46,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Pack package
-        run: dotnet pack --configuration Release
+        run: dotnet pack --configuration Release --no-restore --no-build --include-symbols -p:PackageVersion=${{ steps.get-version.outputs.version }}
 
       - name: Push package
         run: dotnet nuget push "${{ matrix.project }}/bin/Release/${{ matrix.project }}.${{ steps.get-version.outputs.version }}.nupkg" --source "${{ env.NUGET_SOURCE }}"
