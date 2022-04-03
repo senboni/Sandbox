@@ -5,7 +5,11 @@ VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox", "Sandbox\Sandbox.csproj", "{DBBDCC2D-AB45-450E-85EF-DA322A77BE31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.Tests", "Sandbox.Tests\Sandbox.Tests.csproj", "{D7512201-477A-45AA-9FC3-242B07886692}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox.Tests", "Sandbox.Tests\Sandbox.Tests.csproj", "{D7512201-477A-45AA-9FC3-242B07886692}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.Toolkit", "Sandbox.Toolkit\Sandbox.Toolkit.csproj", "{B3A45BE3-2DDE-4FBE-8D97-0C518A0F3877}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.Toys", "Sandbox.Toys\Sandbox.Toys.csproj", "{2448357A-3AF7-4B7E-BA36-5342CB04AFC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{D7512201-477A-45AA-9FC3-242B07886692}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7512201-477A-45AA-9FC3-242B07886692}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7512201-477A-45AA-9FC3-242B07886692}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3A45BE3-2DDE-4FBE-8D97-0C518A0F3877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3A45BE3-2DDE-4FBE-8D97-0C518A0F3877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3A45BE3-2DDE-4FBE-8D97-0C518A0F3877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3A45BE3-2DDE-4FBE-8D97-0C518A0F3877}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2448357A-3AF7-4B7E-BA36-5342CB04AFC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2448357A-3AF7-4B7E-BA36-5342CB04AFC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2448357A-3AF7-4B7E-BA36-5342CB04AFC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2448357A-3AF7-4B7E-BA36-5342CB04AFC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
