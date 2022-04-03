@@ -6,7 +6,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<PackageId>Sandbox.Toolkit</PackageId>
 		<Authors>Senboni</Authors>
 		<Company>Senboni</Company>
@@ -15,7 +15,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Sandbox" Version="1.0.1" />
+		<PackageReference Include="Sandbox" Version="1.0.2" />
 	</ItemGroup>
 
 </Project>

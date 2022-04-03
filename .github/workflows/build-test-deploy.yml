@@ -2,6 +2,8 @@ name: Create and publish nuget package
 
 on:
   push:
+    tags:
+    - 'release'
     branches: [ main ]
     paths-ignore:
     - 'README.md'
@@ -14,9 +16,11 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       packages: write
+
     strategy:
       matrix:
         project: [ Sandbox, Sandbox.Toolkit, Sandbox.Toys ]
@@ -46,7 +50,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Pack package
-        run: dotnet pack --configuration Release
+        run: dotnet pack --configuration Release --no-restore --no-build --include-symbols -p:PackageVersion=${{ steps.get-version.outputs.version }}
 
       - name: Push package
         run: dotnet nuget push "${{ matrix.project }}/bin/Release/${{ matrix.project }}.${{ steps.get-version.outputs.version }}.nupkg" --source "${{ env.NUGET_SOURCE }}"
