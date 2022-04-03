@@ -8,7 +8,7 @@ on:
 
 env:
   DOTNET_VERSION: '6.0.x'
-  NUGET_SOURCE_BASE: 'https://nuget.pkg.github.com/Senboni'
+  NUGET_SOURCE: 'https://nuget.pkg.github.com/Senboni/index.json'
   NUGET_SOURCE_NAME: 'github'
 
 jobs:
@@ -31,7 +31,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Add nuget source
-        run: dotnet nuget add source --username Senboni --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name ${{ env.NUGET_SOURCE_NAME }} "${{ env.NUGET_SOURCE_BASE }}/index.json"
+        run: dotnet nuget add source --username Senboni --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name ${{ env.NUGET_SOURCE_NAME }} "${{ env.NUGET_SOURCE }}"
 
       - name: Install dependencies
         run: dotnet restore
@@ -45,11 +45,5 @@ jobs:
       - name: Pack package
         run: dotnet pack --configuration Release
 
-      - name: Publish on version change
-        id: publish_nuget
-        uses: rohith/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: ${{ matrix.project }}/${{ matrix.project }}.csproj
-          PACKAGE_NAME: ${{ matrix.project }}
-          NUGET_SOURCE: ${{ env.NUGET_SOURCE_BASE }}
-          NUGET_KEY: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push package
+        run: dotnet nuget push "${{ matrix.project }}/bin/Release/${{ matrix.project }}.1.0.1.nupkg" --source "${{ env.NUGET_SOURCE }}"
