@@ -2,8 +2,9 @@ name: Create and publish nuget package
 
 on:
   push:
-    tags:
-    - 'release*'
+    branches: ['main']
+    # tags:
+    # - 'release*'
     paths-ignore:
     - 'README.md'
 
@@ -15,7 +16,6 @@ env:
 
 jobs:
   deploy-main-project:
-    if: github.event.base_ref == 'refs/heads/master'
     runs-on: ubuntu-latest
 
     permissions:
@@ -23,6 +23,9 @@ jobs:
       packages: write
 
     steps:
+      - name: test
+        run: echo ${{ github.event.base_ref }}
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -53,7 +56,6 @@ jobs:
         run: dotnet nuget push "${{ env.MAIN_PROJECT }}/bin/Release/${{ env.MAIN_PROJECT }}.${{ steps.get-version.outputs.version }}.nupkg" --source "${{ env.NUGET_SOURCE }}"
 
   deploy-other-projects:
-    if: github.event.base_ref == 'refs/heads/master'
     runs-on: ubuntu-latest
 
     permissions:
